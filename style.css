@@ -52,6 +52,30 @@ h1 {
   margin-bottom: 3.2rem;
 }
 
+.success {
+  min-width: 300px;
+  min-height: 250px;
+
+  margin: 3.2rem auto;
+  padding: 3.0rem 3rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-panel-dark);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.success h2{
+  color: var(--color-headings-dark);
+  font-size: 2.2rem;
+}
+.success p:nth-child(1) {
+  margin-bottom: 1.6rem;
+}
+.success p:nth-child(2) {
+  margin-bottom: 0.4rem;
+}
+
 form {
   overflow: hidden;
   width: 300px;
@@ -73,17 +97,7 @@ form .input-block:last-child{
   margin-bottom: 0;
 }
 
-form .input-block input, form .input-block button {
-  /*width: 100%;
-  display: block;
-  margin-top: 0.8rem;
-  padding: 0.7rem;
-  font-size: 1.6rem;
-  color: var(--color-text);
-  border-radius: 0.2rem;
-  border: 0.1rem solid var(--color-headings-dark);
-  outline-color: var(--color-headings-dark);*/
-
+form .input-block input, form .input-block #login-submit {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
@@ -100,24 +114,14 @@ form .input-block input, form .input-block button {
 
 }
 
-form .input-block button {
-  /*display: block;
-  min-width: 120px;
-  border: none;
-  background-color: var(--color-headings-dark);
-  color: var(--bg-panel);
-  border-radius: 2.5rem;
-  margin: auto;
-  padding: 0.7rem;
-  */
-
+form .input-block #login-submit {
   margin-bottom: 0;
   border-radius: 0.5rem;
   background-color: var(--color-headings-dark);
   color: var(--bg-panel);
 }
 
-form .input-block button:hover{
+form .input-block #login-submit:hover{
   cursor: pointer;
   opacity: 0.8;
 }
@@ -132,6 +136,7 @@ form .input-block input ~ label {
   transition: .4s;
 }
 
+form .input-block input.active ~ label,
 form .input-block input:focus ~ label,
 form .input-block input:valid ~ label{
   transform: translateY(-24px);
@@ -141,6 +146,22 @@ form .input-block input:valid ~ label{
   color: var(--color-headings-dark);
 }
 
+form .input-block #eye {
+  position: absolute;
+  top: 2.2rem;
+  right: 0;
+
+  
+  font-size: 2.4rem;
+  color: var(--color-text-dark);
+  line-height: 0;
+  letter-spacing: 0;
+
+  cursor: pointer;
+}
+form .input-block #eye:active{
+  color: var(--color-headings-dark);
+}
 form .input-block span.error {
   display: flex;
   width: 100%;
@@ -217,6 +238,25 @@ form .input-block:nth-child(3) {
   to {
     transform: translateY(100%);
     opacity: 0;
+  }
+}
+
+.success-show {
+  animation-name: upDown;
+  animation-duration: 500ms;
+  animation-delay: 500ms;
+  animation-fill-mode: backwards;
+  animation-timing-function: ease-out;
+}
+
+@keyframes upDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  } 
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 

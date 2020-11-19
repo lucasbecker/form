@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <title>Login</title>
+  <meta name="description" content="Um simples formulário de login com animações e validações de dados no front-end.">
+  <meta name="keywords" content="form, forms, formulários, animations, animation, animação, validação, javascript, vanilla, js, puro, html, css3">
+  <meta name="author" content="Lucas Becker">
 
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,13 +20,15 @@
       <form name="login">
 
           <div class="input-block">
-            <input type="email" id="login-email" autocomplete="off" required />
+            <input type="email" id="login-email" name="email" autocomplete="off"  required />
             <label for="login-email">Email</label>
             <span class="error"></span>
           </div>
 
           <div class="input-block">
-            <input type="password" id="login-password" autocomplete="off" required />
+            
+            <input type="password" id="login-password" name="password" autocomplete="off" minlength="4" maxlength="8" required />
+            <i class='bx bx-hide' id="eye"></i>
             <label for="login-password">Senha</label>
             <span class="error"></span>
           </div>

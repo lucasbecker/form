@@ -1,5 +1,7 @@
 const btnSubmit = document.querySelector('#login-submit');
 const form = document.forms.login;
+const passwordField = form.password;
+const eyeBtn = document.querySelector('#eye');
 const formSection = document.querySelector('.form-section');
 
 function validateField( field ) {
@@ -18,10 +20,17 @@ function validateField( field ) {
       email: {
         valueMissing: 'Email obrigatório!',
         typeMismatch: 'Por favor, insira um email válido!',
+        
       },
       password: {
         valueMissing: 'Senha obrigatória!',
+        tooShort: 'Senha muito curta!',
       },
+      text: {
+        valueMissing: 'Campo obrigatório!',
+        tooShort: 'Faltam caracteres!',
+      }
+      // acrescentar aqui os erros e mensagens conforme o necessário
     }
 
     return messages[field.type][typeError];
@@ -64,6 +73,11 @@ function validateField( field ) {
 
 function customValidation( event ) {
   const field = event.target;
+  if(field.value !== ''){
+    field.classList.add('active');
+  } else{ 
+    field.classList.remove('active');
+  }
   const validation = validateField(field);
   validation();
 }
@@ -78,11 +92,24 @@ fields.forEach( field => {
   field.addEventListener('blur', customValidation);
 }) 
 
+eyeBtn.addEventListener('mousedown', (e) => {
+  e.preventDefault();
+  passwordField.type = 'text';
+  eyeBtn.classList.add('bx-show')
+})
+
+eyeBtn.addEventListener('mouseup', () => {
+  passwordField.type = 'password';
+  eyeBtn.classList.remove('bx-show')
+})
+
 form.addEventListener('submit', e => {
   e.preventDefault();
   
   formSection.classList.add('form-hide');
-  console.log('Formulário enviado!');  
+
+  // Executando evento de submit padrão
+  // e.send();
 })
 
 form.addEventListener('animationstart', e => {
@@ -90,10 +117,28 @@ form.addEventListener('animationstart', e => {
     document.querySelector('body').style.overflow = 'hidden';
 })
 
-form.addEventListener('animationend', e => {
+formSection.addEventListener('animationend', e => {
+  
   if(e.animationName === 'down') {
+    document.querySelector('h1').style.display = 'none';
     form.style.display = 'none';
     document.querySelector('body').style.overflow = 'none';
+    formSection.classList.remove('form-hide');
+
+    // Feedback visual do "envio" do formulário após execução da animação
+    const success = document.createElement('div');
+    success.classList.add('success');
+    success.innerHTML = `
+      <h2>Formulário enviado<br> com sucesso!</h2>
+      <div>
+        <p>Informações digitadas: </p>
+        <p><strong>Email:</strong> ${form.email.value}</p>
+        <p><strong>Senha:</strong> ${form.password.value}</p>
+      </div>
+    `;
+    formSection.appendChild(success);
+    formSection.classList.add('success-show');
+    
   }
 })
 
