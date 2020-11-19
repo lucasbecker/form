@@ -1,24 +1,88 @@
 const btnSubmit = document.querySelector('#login-submit');
 const form = document.forms.login;
+const formSection = document.querySelector('.form-section');
 
-btnSubmit.addEventListener('click', e => {
-  e.preventDefault();
-
-
-  const fields = [...document.querySelectorAll('.input-block input')];
-  fields.forEach( field => {
-    if(field.value === '') form.classList.add('validate-error');
-  });
-  const formError = document.querySelector('.validate-error');
-  if(formError) {
-    formError.addEventListener('animationend', e => {
-      if(e.animationName === 'nono') {
-        formError.classList.remove('validate-error');
-      }
-    })
-  }else{
-    form.classList.add('form-hide');
+function validateField( field ) {
+  
+  function verifyErrors(){
+    let foundError = false;
+    for(let error in field.validity) {
+      if(!field.validity.valid && field.validity[error])
+        foundError = error;      
+    }
+    return foundError;
   }
+
+  function customMessage( typeError ) {
+    const messages = {
+      email: {
+        valueMissing: 'Email obrigatório!',
+        typeMismatch: 'Por favor, insira um email válido!',
+      },
+      password: {
+        valueMissing: 'Senha obrigatória!',
+      },
+    }
+
+    return messages[field.type][typeError];
+  }
+
+  function setCustomMessage(message) {
+    const spanError = field.parentNode.querySelector('span.error');
+
+    if(message) {
+      spanError.classList.add('active');
+      spanError.innerHTML = message;
+      form.classList.add('validate-error');
+
+      const formError = document.querySelector('.validate-error');
+      if(formError) {
+        formError.addEventListener('animationend', e => {
+          if(e.animationName === 'nono') {
+            formError.classList.remove('validate-error');
+          }
+        })
+      }
+    } else {
+      spanError.classList.remove('active');
+      spanError.innerHTML = '';
+    }
+  }
+
+  return function() {
+    const error = verifyErrors();
+    if (verifyErrors()) {
+      const message = customMessage(error)
+      field.style.borderColor = 'red';
+      setCustomMessage(message);
+    } else {
+      field.style.borderColor = '#3664FF';
+      setCustomMessage();
+    }
+  }
+}
+
+function customValidation( event ) {
+  const field = event.target;
+  const validation = validateField(field);
+  validation();
+}
+
+// Listeners 
+const fields = [...document.querySelectorAll('[required]')];
+fields.forEach( field => {
+  field.addEventListener('invalid', event => {
+    event.preventDefault();
+    customValidation(event);
+  });
+  field.addEventListener('blur', customValidation);
+}) 
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  
+  formSection.classList.add('form-hide');
+  console.log('Formulário enviado!');  
 })
 
 form.addEventListener('animationstart', e => {
@@ -33,9 +97,8 @@ form.addEventListener('animationend', e => {
   }
 })
 
-/* Background Squares */
+// Background Squares 
 const ulSquares = document.querySelector('ul.squares');
-
 for(let i=0; i<=10; i++) {
   const li = document.createElement('li');
   const random = (min, max) => Math.random() * (max - min) + min;
