@@ -156,7 +156,7 @@ for(let i=0; i<=10; i++) {
   li.style.height = `${size}px`;
 
   li.style.bottom = `-${size}px`;
-  li.style.left = `${position}%`;
+  li.style.left = `calc(${position}% - ${size}px)`;
 
   li.style.animationDelay = `${delay}s`;
   li.style.animationDuration = `${duration}s`;
